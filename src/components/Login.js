@@ -3,12 +3,11 @@ import Header from './Header';
 import { checkvalidateData } from '../utils/validate';
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
 import {  updateProfile } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { USER_AVATAR } from '../utils/constants';
 const Login = () => {
-  const navigate=useNavigate();
      const dispatch=useDispatch
   const [IsSignInForm, setIsSignInForm] = useState(true);
   const [errorMassege, setErrorMassege] = useState(null);
@@ -27,17 +26,16 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           updateProfile(user, {
-            displayName: name.current.value, photoURL: "https://images.unsplash.com/photo-1480455624313-e29b44bbfde1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            displayName: name.current.value,
+             photoURL: USER_AVATAR
           }).then(() => {
             const {uid,email,displayName,photoURL} =auth.currentUser;
             dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
             
-            navigate("/browse");
           }).catch((error) => {
             setErrorMassege(error.massege);
           });
-          console.log(user);
-          navigate("/browse");
+        
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -51,9 +49,8 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        console.log(user);
-        navigate("/browse")
-        // ...
+      
+      
       })
       .catch((error) => {
         const errorCode = error.code;

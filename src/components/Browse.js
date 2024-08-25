@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Header from './Header';
 import useNowPlayingMovies from '../hooks/useNowPlayingMovies';
-import VideoBackground from './VideoBackground';
 import MainContainer from './MainContainer';
+
+import usePopularMovies from '../hooks/usePopularMovies';
 
 const Browse = () => {
  useNowPlayingMovies();   
+ usePopularMovies();
 
   return (
     <div>
     
       <Header />
       <MainContainer/>
+    
     </div>
   );
 };
